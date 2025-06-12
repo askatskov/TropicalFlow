@@ -2,8 +2,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Lisa teenused
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient(); // vajalik Spotify API jaoks
-builder.Services.AddSession();    // OAuth ja kasutaja sessioonide jaoks
+builder.Services.AddHttpClient();
+builder.Services.AddSession();
+builder.Services.AddScoped<SpotifyService>();
+
 
 var app = builder.Build();
 
@@ -16,11 +18,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-app.UseSession(); // sessioonide toetus
-
+app.UseSession();
 app.UseAuthorization();
+
 
 // Vaikimisi route
 app.MapControllerRoute(

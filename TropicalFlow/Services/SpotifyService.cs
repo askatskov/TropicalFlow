@@ -19,14 +19,15 @@ public class SpotifyService
 		var redirectUri = _config["Spotify:RedirectUri"];
 		var scope = "user-read-currently-playing";
 
-		var query = HttpUtility.ParseQueryString(string.Empty);
-		query["client_id"] = clientId;
-		query["response_type"] = "code";
-		query["redirect_uri"] = redirectUri;
-		query["scope"] = scope;
+		var url = $"https://accounts.spotify.com/authorize" +
+				  $"?response_type=code" +
+				  $"&client_id={Uri.EscapeDataString(clientId)}" +
+				  $"&scope={Uri.EscapeDataString(scope)}" +
+				  $"&redirect_uri={Uri.EscapeDataString(redirectUri)}";
 
-		return $"https://accounts.spotify.com/authorize?{query}";
+		return url;
 	}
+
 
 	public async Task<string> ExchangeCodeForTokenAsync(string code)
 	{
